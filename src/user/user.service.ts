@@ -17,6 +17,7 @@ export class UserService {
 
   ){}
 
+  //Crear un usuario
   async create(createUserDto: CreateUserDto) {
     createUserDto.idUser = await uuid()
     createUserDto.email = createUserDto.email.toLocaleLowerCase()
@@ -30,10 +31,12 @@ export class UserService {
     }
   }
 
+  // Obtener todos los usuarios
   findAll() {
     return this.userModel.find()
   }
 
+  // Obtener un usuario por idUser, MongoID ó Email
   async findOne(term: string){
     let user: User;
 
@@ -53,12 +56,13 @@ export class UserService {
     }
 
     if (!user) {
-      throw new NotFoundException(`Pokemon with id, name or "${term}" not found`)
+      throw new NotFoundException(`Usuario con email o id ${term} no existe`)
     }
 
     return user
   }
 
+  // Login de usuario
   async login(userL: any){
     let user: User
 
@@ -72,10 +76,24 @@ export class UserService {
 
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  // Actualizar usuario
+  async update(term: string, updateUserDto: UpdateUserDto) {
+    const user = await this.findOne(term)
+
+    if(updateUserDto.email)
+      updateUserDto.email = updateUserDto.email.toLowerCase()
+
+    try {
+
+      await user.updateOne(updateUserDto)
+      return { ...user.toJSON(), ...updateUserDto }
+
+    } catch (error) {
+      this.handleExeceptions(error)
+    }
   }
 
+  //Eliminar un usuario
   async remove(id: number) {
     const { deletedCount } = await this.userModel.deleteOne({ _id: id })
 
@@ -88,9 +106,9 @@ export class UserService {
 
   private handleExeceptions(error: any){
     if(error.code === 11000){
-      throw new BadRequestException(`Pokemon exists in db ${JSON.stringify(error.keyValue)}`)
+      throw new BadRequestException(`Usuario ya existe en la BD ${JSON.stringify(error.keyValue)}`)
     }
     console.error(error)
-    throw new InternalServerErrorException(`Can't create Pokemon - Check server logs`)
+    throw new InternalServerErrorException(`No se puede crear el usuario - Check server logs`)
   }
 }

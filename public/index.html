@@ -10,5 +10,40 @@
 <body>
     <h1>Api de tareas</h1>
     <h1>EndPoints: </h1>
+    <ul>
+        <li><strong>GET</strong> - '/tarea' </li>
+        <li><strong>POST</strong> - '/tarea' -  <strong>Params:</strong> {
+            "name",
+            "description",
+            "date",
+            "date_end",
+            "id_creator" (number)
+        } 
+        </li>
+        <li><strong>PATCH</strong> - '/tarea/:id_creator ó :MongoID ó :name' - <strong>Params:</strong> {
+            "name",
+            "description",
+            "date",
+            "date_end",
+            "id_creator" (number)
+        } </li>
+        <li><strong>DELETE</strong> - '/tarea'</li>
+        <li><strong>GET</strong> - '/user/:id_user ó :MongoID ó :email' </li>
+        <li><strong>PATCH</strong> - '/user/:id_user' - <strong>Params:</strong> {
+            "email",
+            "password",
+            "name"
+        } </li>
+        <li><strong>DELETE</strong> - '/user/id_user'</li>
+        <li><strong>POST</strong> - '/user/login' - <strong>Params:</strong> {
+            "email",
+            "password"
+        }</li>
+        <li><strong>POST</strong> - '/user/register' - <strong>Params:</strong> {
+            "email",
+            "password",
+            "name"
+        }</li>
+      </ul>
 </body>
 </html>

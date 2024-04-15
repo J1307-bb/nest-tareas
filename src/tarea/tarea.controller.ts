@@ -18,14 +18,19 @@ export class TareaController {
     return this.tareaService.findAll(paginationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tareaService.findOne(+id);
+  @Get('/user/:id')
+  findAllUser(@Param('id') id: string){
+    return this.tareaService.findAllUser(id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTareaDto: UpdateTareaDto) {
-    return this.tareaService.update(+id, updateTareaDto);
+  @Get(':term')
+  findOne(@Param('term') term: string) {
+    return this.tareaService.findOne(term);
+  }
+
+  @Patch(':term')
+  update(@Param('term') term: string, @Body() updateTareaDto: UpdateTareaDto) {
+    return this.tareaService.update(term, updateTareaDto);
   }
 
   @Delete(':id')

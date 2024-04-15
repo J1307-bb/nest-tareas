@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tarea } from './entities/tarea.entity';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -28,20 +28,18 @@ export class TareaService {
   // Crear una tarea
   async create(createTareaDto: CreateTareaDto) {
 
-    const tarea = await this.tareaModel.create(createTareaDto)
-    return tarea
-/*     try {
+    try {
       console.log(createTareaDto);
       const tarea = await this.tareaModel.create(createTareaDto)
       return tarea;
 
     } catch (error) {
       this.handleExeceptions(error)
-    } */
+    }
 
-    return createTareaDto
   }
 
+  // Obtener todas las tareas
   findAll(paginationDto: PaginationDto) {
     const { limit = this.defaultLimit, offset = 0 } = paginationDto
 
@@ -50,16 +48,66 @@ export class TareaService {
       .skip(offset)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tarea`;
+  async findAllUser(id: string){
+    
+    return this.tareaModel.find({ id_creator: id })
+
   }
 
-  update(id: number, updateTareaDto: UpdateTareaDto) {
-    return `This action updates a #${id} tarea`;
+  //Obtener una tarea por id_creador, name o MongoID
+  async findOne(term: string) {
+
+    let tarea: Tarea;
+
+    // id_creator
+    if ( !isNaN(+term)) {
+      tarea = await this.tareaModel.findOne({ id_creator: term })
+    }
+
+    //MongoID
+    if ( !tarea && isValidObjectId(term) ) {
+      tarea = await this.tareaModel.findById( term )
+    }
+
+    //Name
+    if (!tarea) {
+      tarea = await this.tareaModel.findOne({ name: term.toLowerCase().trim() })
+    }
+
+    if (!tarea) {
+      throw new NotFoundException(`Tarea con id, name or "${term}" no encontrado`)
+    }
+
+    return tarea
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tarea`;
+  //Actualizar una tarea 
+  async update(term: string, updateTareaDto: UpdateTareaDto) {
+
+    const tarea = await this.findOne(term)
+
+    /* if(updateTareaDto.name)
+      updateTareaDto.name = updateTareaDto.name.toLowerCase() */
+
+    try {
+
+      await tarea.updateOne(updateTareaDto)
+      return { ...tarea.toJSON(), ...updateTareaDto }
+
+    } catch (error) {
+      this.handleExeceptions(error)
+    }
+  }
+
+  //Eliminar una tarea
+  async remove(id: number) {
+    const { deletedCount } = await this.tareaModel.deleteOne({ _id: id })
+
+    if (deletedCount === 0) {
+      throw new BadRequestException(`Tarea con id ${id} no encontrado`)
+    }
+
+    return 'Tarea eliminada'
   }
 
   private handleExeceptions(error: any){

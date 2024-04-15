@@ -12,10 +12,10 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
+/*   @Get()
   findAll() {
     return this.userService.findAll();
-  }
+  } */
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -27,9 +27,9 @@ export class UserController {
     return this.userService.login(user)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Patch(':term')
+  update(@Param('term') term: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(term, updateUserDto);
   }
 
   @Delete(':id')
