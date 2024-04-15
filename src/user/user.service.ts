@@ -66,7 +66,7 @@ export class UserService {
   async login(userL: any){
     let user: User
 
-    user = await this.userModel.findOne({ email: userL.email.toLocaleLowerCase().trim(), password: userL.password.toLocaleLowerCase().trim() })
+    user = await this.userModel.findOne({ email: userL.email.toLowerCase().trim(), password: userL.password.toLowerCase().trim() })
 
     if (!user) {
       throw new NotFoundException(`Email y/o Password incorrectos`)
