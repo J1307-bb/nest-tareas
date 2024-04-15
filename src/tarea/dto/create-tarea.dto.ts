@@ -16,8 +16,7 @@ export class CreateTareaDto {
     @IsDateString()
     date_end:    string;
 
-    @IsInt()
-    @Min(1)
-    @IsPositive()
-    id_creator:  number;
+    @IsString()
+    @MinLength(1)
+    id_creator:  string;
 }
