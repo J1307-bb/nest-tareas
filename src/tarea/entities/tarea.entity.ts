@@ -28,7 +28,7 @@ export class Tarea extends Document{
     @Prop({
         index: true
     })
-    id_creator:  number;
+    id_creator:  string;
 
 }
 
