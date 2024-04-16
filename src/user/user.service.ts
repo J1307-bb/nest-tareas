@@ -32,8 +32,15 @@ export class UserService {
   }
 
   // Obtener todos los usuarios
-  findAll() {
-    return this.userModel.find()
+  async findAll() {
+
+    const users = await this.userModel.find().exec();
+    return users.map(user => ({
+      idUser: user.idUser,
+      name: user.name,
+      email: user.email,
+    }));
+
   }
 
   // Obtener un usuario por idUser, MongoID ó Email
@@ -72,7 +79,11 @@ export class UserService {
       throw new NotFoundException(`Email y/o Password incorrectos`)
     }
 
-    return user
+    return {
+      id_user: user.idUser,
+      name: user.name,
+      email: user.email
+    }
 
   }
 

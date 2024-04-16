@@ -29,6 +29,21 @@ export class Tarea extends Document{
     })
     id_creator:  string;
 
+    @Prop({
+        index: true
+    })
+    prioridad: string
+
+    @Prop({
+        index: true
+    })
+    estado: string
+
+    @Prop({
+        index: true
+    })
+    name_proyecto: string
+
 }
 
 export const TareaSchema = SchemaFactory.createForClass(Tarea);

@@ -8,6 +8,8 @@ import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfiguration } from './config/env.config';
 import { JoiValidationSchema } from './config/joi.validation';
+import { ProyectoModule } from './proyecto/proyecto.module';
+import { EquipoModule } from './equipo/equipo.module';
 
 @Module({
   imports: [
@@ -29,6 +31,10 @@ import { JoiValidationSchema } from './config/joi.validation';
       TareaModule,
 
       SeedModule,
+
+      ProyectoModule,
+
+      EquipoModule,
   ],
 })
 export class AppModule {}
