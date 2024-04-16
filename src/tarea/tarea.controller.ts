@@ -33,8 +33,8 @@ export class TareaController {
     return this.tareaService.update(term, updateTareaDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tareaService.remove(id);
+  @Delete(':term')
+  remove(@Param('term') term: string) {
+    return this.tareaService.remove(term);
   }
 }

@@ -100,14 +100,27 @@ export class TareaService {
   }
 
   //Eliminar una tarea
-  async remove(id: string) {
-    const { deletedCount } = await this.tareaModel.deleteOne({ _id: id })
+  async remove(term: string) {
+    /* const { deletedCount } = await this.tareaModel.deleteOne({ _id: id })
 
     if (deletedCount === 0) {
       throw new BadRequestException(`Tarea con id ${id} no encontrado`)
+    } */
+
+    //MongoID
+    if ( isValidObjectId(term) ) {
+      const { deletedCount } = await this.tareaModel.deleteOne({ _id: term })
+      return `Tarea eliminada con _id: ${term} '`
     }
 
-    return 'Tarea eliminada'
+    //Name
+    if (!isValidObjectId(term)) {
+      const { deletedCount } = await this.tareaModel.deleteOne({ name: term.trim() })
+      return `Tarea eliminada con name: ${term}`
+    }else{
+      throw new NotFoundException(`Tarea con id, name or "${term}" no encontrado`)
+    }
+
   }
 
   private handleExeceptions(error: any){

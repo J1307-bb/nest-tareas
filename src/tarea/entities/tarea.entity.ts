@@ -5,7 +5,6 @@ import { Document } from "mongoose";
 export class Tarea extends Document{
 
     @Prop({
-        unique: true,
         index: true
     })
     name:        string;
