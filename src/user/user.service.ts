@@ -80,7 +80,7 @@ export class UserService {
     }
 
     return {
-      id_user: user.idUser,
+      idUser: user.idUser,
       name: user.name,
       email: user.email
     }
