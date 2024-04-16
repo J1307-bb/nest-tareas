@@ -35,6 +35,6 @@ export class TareaController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tareaService.remove(+id);
+    return this.tareaService.remove(id);
   }
 }

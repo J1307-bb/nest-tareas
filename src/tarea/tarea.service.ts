@@ -100,7 +100,7 @@ export class TareaService {
   }
 
   //Eliminar una tarea
-  async remove(id: number) {
+  async remove(id: string) {
     const { deletedCount } = await this.tareaModel.deleteOne({ _id: id })
 
     if (deletedCount === 0) {
