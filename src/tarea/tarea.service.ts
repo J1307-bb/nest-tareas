@@ -128,7 +128,7 @@ export class TareaService {
     try {
 
       const fechaDelDia = new Date().toISOString().split('T')[0];
-      const tareasAtrasadas = await this.tareaModel.find({ date_end: { $lt: fechaDelDia } }, { id_creator: id }).exec()
+      const tareasAtrasadas = await this.tareaModel.find({ date_end: { $lt: fechaDelDia }, id_creator: id}).exec()
       return tareasAtrasadas
       
     } catch (error) {

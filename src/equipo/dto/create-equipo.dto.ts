@@ -7,7 +7,11 @@ export class CreateEquipoDto {
     @IsString()
     @MinLength(1)
     name_equipo: string
-    
+
+    @IsString()
+    @MinLength(1)
+    status: string
+
     @IsArray()
     miembros: []
 }

@@ -13,6 +13,11 @@ export class Equipo extends Document {
         index: true
     })
     name_equipo: string
+
+    @Prop({
+        index: true
+    })
+    status: string
     
     @Prop({
         index: true

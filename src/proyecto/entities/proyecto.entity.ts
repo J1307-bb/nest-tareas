@@ -20,6 +20,11 @@ export class Proyecto extends Document{
     })
     id_equipo: string
 
+    @Prop({
+        index: true
+    })
+    status: string
+
     @Prop({})
     tareas: Tarea[]
 

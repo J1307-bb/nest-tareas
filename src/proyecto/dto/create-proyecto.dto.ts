@@ -12,6 +12,10 @@ export class CreateProyectoDto {
     @IsString()
     @MinLength(1)
     id_equipo: string
+
+    @IsString()
+    @MinLength(1)
+    status: string
     
     tareas: []
 

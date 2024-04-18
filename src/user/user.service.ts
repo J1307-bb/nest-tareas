@@ -79,11 +79,7 @@ export class UserService {
       throw new NotFoundException(`Email y/o Password incorrectos`)
     }
 
-    return {
-      idUser: user.idUser,
-      name: user.name,
-      email: user.email
-    }
+    return user
 
   }
 
