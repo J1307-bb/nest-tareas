@@ -3,7 +3,7 @@ import { CreateEquipoDto } from './dto/create-equipo.dto';
 import { UpdateEquipoDto } from './dto/update-equipo.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Equipo } from './entities/equipo.entity';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { v4 as uuid } from 'uuid'
 
@@ -40,6 +40,11 @@ export class EquipoService {
     
     if (id) {
       equipo = await this.equipoModel.findOne({ id_equipo: id })
+    }
+
+    //Name
+    if (!isValidObjectId(id)) {
+      equipo = await this.equipoModel.findOne({ name_equipo: id.trim() })
     }
 
     if (!equipo) {
