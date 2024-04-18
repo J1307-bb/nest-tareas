@@ -23,6 +23,11 @@ export class TareaController {
     return this.tareaService.findAllUser(id)
   }
 
+  @Get('/user/atrasadas/:id')
+  findAllUserAtrasadas(@Param('id') id: string){
+    return this.tareaService.findAllUserAtrasadas(id)
+  }
+
   @Get(':term')
   findOne(@Param('term') term: string) {
     return this.tareaService.findOne(term);

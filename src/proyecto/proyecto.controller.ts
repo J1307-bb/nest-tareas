@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProyectoService } from './proyecto.service';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
+import { Tarea } from 'src/tarea/entities/tarea.entity';
 
 @Controller('proyecto')
 export class ProyectoController {
@@ -10,6 +11,11 @@ export class ProyectoController {
   @Post()
   create(@Body() createProyectoDto: CreateProyectoDto) {
     return this.proyectoService.create(createProyectoDto);
+  }
+
+  @Post('/tareas/:id')
+  async addTasks(@Body() tasks: any, @Param('id') id: string) {
+    return this.proyectoService.agregarTarea(id, tasks)
   }
 
   @Get('/team/:id')

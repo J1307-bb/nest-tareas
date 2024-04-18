@@ -123,6 +123,20 @@ export class TareaService {
 
   }
 
+  async findAllUserAtrasadas(id: string) {
+
+    try {
+
+      const fechaDelDia = new Date().toISOString().split('T')[0];
+      const tareasAtrasadas = await this.tareaModel.find({ date_end: { $lt: fechaDelDia } }, { id_creator: id }).exec()
+      return tareasAtrasadas
+      
+    } catch (error) {
+      this.handleExeceptions(error)
+    }
+
+  }
+
   private handleExeceptions(error: any){
     if(error.code === 11000){
       throw new BadRequestException(`Tarea ya existente en la BD ${JSON.stringify(error.keyValue)}`)

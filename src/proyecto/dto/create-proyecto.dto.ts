@@ -1,9 +1,8 @@
-import { IsString, MinLength } from "class-validator"
+import { IsJSON, IsNotEmpty, IsString, MinLength, isArray, isObject } from "class-validator"
+import { Tarea } from "src/tarea/entities/tarea.entity"
 
 export class CreateProyectoDto {
 
-    @IsString()
-    @MinLength(1)
     id_proyecto: string
 
     @IsString()
@@ -13,5 +12,7 @@ export class CreateProyectoDto {
     @IsString()
     @MinLength(1)
     id_equipo: string
+    
+    tareas: []
 
 }

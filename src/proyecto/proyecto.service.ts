@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { v4 as uuid } from 'uuid'
+import { Tarea } from 'src/tarea/entities/tarea.entity';
 
 @Injectable()
 export class ProyectoService {
@@ -31,6 +32,23 @@ export class ProyectoService {
     }
   }
 
+  async agregarTarea(id: string, tarea: any ){
+    try {
+
+      const project = await this.proyectoModel.findOne({ id_proyecto: id }).exec();
+      if (!project) {
+        return null; // Proyecto no encontrado
+      }
+  
+      project.tareas.push({...tarea}) // Agregar las nuevas tareas al array existente
+      await project.save();
+      return project;
+      
+    } catch (error) {
+      this.handleExeceptions(error)
+    }
+  }
+
   findAllTeam(id: string) {
     return this.proyectoModel.find({ id_equipo: id });
   }
@@ -43,7 +61,7 @@ export class ProyectoService {
     }
 
     if (!proyecto) {
-      throw new NotFoundException(`Usuario con email o id ${id} no existe`)
+      throw new NotFoundException(`Proyecto o id ${id} no existe`)
     }
 
     return proyecto
@@ -70,10 +88,10 @@ export class ProyectoService {
     const { deletedCount } = await this.proyectoModel.deleteOne({ id_proyecto: id })
 
     if (deletedCount === 0) {
-      throw new BadRequestException(`Usuario con id ${id} no encontrado`)
+      throw new BadRequestException(`Proyecto con id ${id} no encontrado`)
     }
 
-    return 'Tarea eliminada'
+    return 'Proyecto eliminado'
   }
 
   private handleExeceptions(error: any){

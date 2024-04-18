@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { Tarea } from "src/tarea/entities/tarea.entity";
 
 @Schema()
 export class Proyecto extends Document{
@@ -19,6 +20,8 @@ export class Proyecto extends Document{
     })
     id_equipo: string
 
+    @Prop({})
+    tareas: Tarea[]
 
 }
 
